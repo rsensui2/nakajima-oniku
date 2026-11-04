@@ -8,8 +8,14 @@
   --coral: #c45c4a;
   --ink: #0f1419;
   --muted: #5c6b73;
+  --abyss: #04070a;
+  --night: #08131a;
+  --moon: #f3ead7;
+  --ember: #e8735a;
+  --mist: #9fb9c2;
   --background: var(--sand);
   --foreground: var(--ink);
+  --ease-tide: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @theme inline {
@@ -20,13 +26,245 @@
   --color-coral: var(--coral);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
+  --color-abyss: var(--abyss);
+  --color-night: var(--night);
+  --color-moon: var(--moon);
+  --color-ember: var(--ember);
+  --color-mist: var(--mist);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-noto-sans-jp);
+  --font-sans: var(--nf-sans), "Hiragino Sans", sans-serif;
+  --font-mincho: var(--nf-mincho), "Hiragino Mincho ProN", serif;
+  --font-mono: var(--nf-mono), ui-monospace, monospace;
+  --font-serif: var(--nf-serif), Georgia, serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* ---------- トップページ（夜の東京湾） ---------- */
+
+html:has(.home-root) {
+  background: var(--abyss);
+  color-scheme: dark;
+}
+
+html:has(.home-root) body {
+  background: var(--abyss);
+  color: var(--moon);
+}
+
+.home-root ::selection {
+  background: var(--coral);
+  color: var(--moon);
+}
+
+.vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-feature-settings: "vpal" 1;
+}
+
+.palt {
+  font-feature-settings: "palt" 1;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* セクションの暗幕：上下の端をぼかして境目の線を出さない */
+.scrim-fade {
+  mask-image: linear-gradient(to bottom, transparent 0, black 14%, black 86%, transparent 100%);
+}
+
+.scrim-fade-top {
+  mask-image: linear-gradient(to bottom, transparent 0, black 22%);
+}
+
+/* 一文字ずつ現れる見出し */
+.split-char {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.split-char > span {
+  display: inline-block;
+  transform: translate3d(0, 105%, 0);
+  opacity: 0;
+  filter: blur(6px);
+  transition:
+    transform 1.1s var(--ease-tide),
+    opacity 1.1s var(--ease-tide),
+    filter 1.1s var(--ease-tide);
+  transition-delay: calc(var(--i, 0) * 38ms + var(--d, 0ms));
+}
+
+.vertical .split-char > span {
+  transform: translate3d(0, -60%, 0);
+}
+
+.is-in .split-char > span,
+.split-char.is-in > span {
+  transform: none;
+  opacity: 1;
+  filter: none;
+}
+
+/* 下から湧く行 */
+.rise {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity 1s var(--ease-tide),
+    transform 1s var(--ease-tide);
+  transition-delay: var(--d, 0ms);
+}
+
+.is-in .rise,
+.rise.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* 線が引かれる */
+.draw-line {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1.4s var(--ease-tide);
+  transition-delay: var(--d, 0ms);
+}
+
+.is-in .draw-line {
+  transform: scaleX(1);
+}
+
+/* 流れるテロップ */
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  animation: marquee var(--marquee-duration, 48s) linear infinite;
+}
+
+/* スクロールの合図 */
+@keyframes scroll-cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+.scroll-cue-line {
+  animation: scroll-cue 2.4s var(--ease-tide) infinite;
+}
+
+/* JS が動かなくても読み込み画面が残り続けないように */
+@keyframes loader-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.loader-failsafe {
+  animation: loader-failsafe 0.6s ease 5s forwards;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.7);
+  }
+}
+
+.live-dot {
+  animation: pulse-dot 1.8s ease-in-out infinite;
+}
+
+/* 静止画の背景（WebGL が使えないとき） */
+.stage-fallback {
+  background:
+    radial-gradient(ellipse 30% 22% at 42% 38%, rgba(243, 234, 215, 0.28), transparent 70%),
+    radial-gradient(circle at 42% 38%, rgba(243, 234, 215, 0.9) 0 1.6vmin, transparent 1.7vmin),
+    linear-gradient(180deg, #010409 0%, #0b2029 52%, #04121a 52.2%, #020a0f 100%);
+}
+
+input[type="range"].tide-range {
+  appearance: none;
+  background: transparent;
+  height: 28px;
+}
+
+input[type="range"].tide-range::-webkit-slider-runnable-track {
+  height: 1px;
+  background: color-mix(in oklab, var(--moon) 30%, transparent);
+}
+
+input[type="range"].tide-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -7px;
+  border-radius: 999px;
+  background: var(--moon);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--coral) 55%, transparent);
+  cursor: grab;
+}
+
+input[type="range"].tide-range::-moz-range-track {
+  height: 1px;
+  background: color-mix(in oklab, var(--moon) 30%, transparent);
+}
+
+input[type="range"].tide-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--moon);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--coral) 55%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .split-char > span,
+  .rise,
+  .draw-line {
+    transition: none;
+    transform: none;
+    opacity: 1;
+    filter: none;
+  }
+  .marquee-track,
+  .scroll-cue-line,
+  .live-dot {
+    animation: none;
+  }
 }

@@ -14,7 +14,7 @@ export function SiteHeader() {
           <span className="text-[0.65rem] font-semibold tracking-[0.25em] text-tide uppercase">
             Nakajima Tide Cut
           </span>
-          <span className="text-lg font-bold tracking-tight text-sea group-hover:text-coral transition-colors">
+          <span className="font-mincho text-lg font-bold tracking-[0.2em] text-sea transition-colors group-hover:text-coral">
             潮待熟成 中島
           </span>
         </Link>
