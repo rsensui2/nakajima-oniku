@@ -67,26 +67,26 @@ export function Aging() {
               <span ref={dayRef} className="tabular text-[clamp(4rem,11vw,9rem)] font-medium tracking-tight">
                 00
               </span>
-              <span className="text-[0.9rem] tracking-[0.2em] text-moon/40">/ {MAX_DAYS}</span>
+              <span className="text-[0.9rem] tracking-[0.2em] text-moon/55">/ {MAX_DAYS}</span>
             </p>
           </div>
           <dl className="grid grid-cols-2 gap-x-10 gap-y-3 font-mono text-[0.68rem] tracking-[0.14em] text-moon/60 sm:grid-cols-4">
             <div>
-              <dt className="text-moon/40">庫内温度</dt>
+              <dt className="text-moon/55">庫内温度</dt>
               <dd className="mt-1 text-base text-moon">1.5℃</dd>
             </div>
             <div>
-              <dt className="text-moon/40">湿度</dt>
+              <dt className="text-moon/55">湿度</dt>
               <dd className="mt-1 text-base text-moon">
                 <span ref={humidityRef} className="tabular">82.0</span>%
               </dd>
             </div>
             <div>
-              <dt className="text-moon/40">風</dt>
+              <dt className="text-moon/55">風</dt>
               <dd className="mt-1 text-base text-moon">浜風</dd>
             </div>
             <div>
-              <dt className="text-moon/40">重さ</dt>
+              <dt className="text-moon/55">重さ</dt>
               <dd className="mt-1 text-base text-moon">
                 <span ref={weightRef} className="tabular">100</span>%
               </dd>
@@ -108,11 +108,11 @@ export function Aging() {
             >
               <p className="font-mono text-[0.6rem] tracking-[0.2em] text-ember">0{i + 1}</p>
               <p className="mt-1 font-mincho tracking-[0.2em] text-moon">{st.ja}</p>
-              <p className="hidden font-mono text-[0.58rem] tracking-[0.18em] text-moon/45 sm:block">{st.en}</p>
+              <p className="hidden font-mono text-[0.58rem] tracking-[0.18em] text-moon/60 sm:block">{st.en}</p>
             </li>
           ))}
         </ol>
-        <p className="mt-5 font-mono text-[0.6rem] tracking-[0.1em] text-moon/35">※ 日数・湿度・重さの変化は熟成の流れを示す図で、実際の値は部位ごとに設計します。</p>
+        <p className="mt-5 font-mono text-[0.6rem] tracking-[0.1em] text-moon/55">※ 日数・湿度・重さの変化は熟成の流れを示す図で、実際の値は部位ごとに設計します。</p>
       </div>
     </StorySection>
   );

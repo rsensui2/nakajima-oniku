@@ -1,3 +1,4 @@
+import type { Viewport } from "next";
 import { HomeExperience } from "@/features/home/home-experience";
 import { Aging } from "@/features/home/sections/aging";
 import { ChartScene } from "@/features/home/sections/chart-scene";
@@ -8,6 +9,10 @@ import { LiveMarquee } from "@/features/home/sections/live-marquee";
 import { Phases } from "@/features/home/sections/phases";
 import { Reserve } from "@/features/home/sections/reserve";
 import { TidePanel } from "@/features/home/sections/tide-panel";
+
+export const viewport: Viewport = {
+  themeColor: "#04070a",
+};
 
 export default function Home() {
   return (

@@ -52,7 +52,7 @@ export function CutScene() {
           大量には並べません。人数・調理法・ご希望と、その日の潮を照らし合わせて、中島が一枚を決めます。肉を「買う」より、切り口を「受け取る」店です。
         </Reveal>
       </div>
-      <div className="absolute bottom-[12vh] right-[6vw] hidden text-right font-mono text-[0.64rem] leading-[2] tracking-[0.22em] text-moon/45 lg:block">
+      <div className="absolute bottom-[12vh] right-[6vw] hidden text-right font-mono text-[0.64rem] leading-[2] tracking-[0.22em] text-moon/60 lg:block">
         <p>BLOCK — 湾岸熟成の塊</p>
         <p>SLICE — 厚さは調理法で決める</p>
         <p>NOTE — 潮位メモ・切り方・火入れの一枚絵つき</p>

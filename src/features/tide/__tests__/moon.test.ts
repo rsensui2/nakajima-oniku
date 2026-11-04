@@ -59,3 +59,14 @@ describe("潮名", () => {
     expect(start).toBe(Date.UTC(2026, 10, 9) - JST_OFFSET_MS);
   });
 });
+
+describe("moonName（朔望の瞬間）", () => {
+  it.each([
+    ["2026-03-03T11:38:00Z", "満月"],
+    ["2026-08-28T04:18:00Z", "満月"],
+    ["2026-08-12T17:37:00Z", "新月"],
+  ])("%s は %s と呼ぶ", async (iso, name) => {
+    const { moonState } = await import("../moon");
+    expect(moonState(Date.parse(iso)).name).toBe(name);
+  });
+});

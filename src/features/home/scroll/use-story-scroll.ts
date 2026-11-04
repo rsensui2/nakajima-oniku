@@ -19,7 +19,8 @@ export function storyFromScroll(y: number, sections: readonly SectionBox[]): num
   const index = sections.findIndex((s) => y < s.top + s.height);
   if (index === -1) return sections.length;
   const s = sections[index];
-  return index + (y - s.top) / s.height;
+  // セクションの間に挟まった要素（テロップなど）の上では、次のセクションの先頭で止めて S を戻さない
+  return index + Math.max(0, (y - s.top) / s.height);
 }
 
 /** Lenis の慣性スクロールと、S の配信をまとめて行う */
@@ -32,8 +33,10 @@ export function useStoryScroll(bus: StoryBus): void {
       anchors: { duration: 2.2 },
     });
     let sections = measureSections();
+    let active = true;
     const publish = () => bus.set(storyFromScroll(lenis.scroll, sections));
     const remeasure = () => {
+      if (!active) return;
       sections = measureSections();
       publish();
     };
@@ -45,6 +48,7 @@ export function useStoryScroll(bus: StoryBus): void {
     remeasure();
 
     return () => {
+      active = false;
       observer.disconnect();
       lenis.destroy();
     };

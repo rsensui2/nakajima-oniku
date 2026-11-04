@@ -20,6 +20,8 @@ export type TidePoint = Readonly<{ time: number; level: number }>;
 const MS_PER_HOUR = 3_600_000;
 const SCAN_STEP_MS = 10 * 60_000;
 const BISECT_ITERATIONS = 24;
+/** これより小さい上下（cm）は満潮・干潮として数えない（日周不等で出る小さな揺れ） */
+export const MIN_EXTREME_RANGE_CM = 3;
 
 type Term = Readonly<{ amplitude: number; argument: number; speed: number }>;
 
@@ -73,6 +75,15 @@ function refineExtreme(a: number, b: number, station: TideStation): number {
   return (lo + hi) / 2;
 }
 
+/** 隣り合う満潮と干潮の差が小さすぎる組を取り除く（取り除いた後も満干は交互に並ぶ） */
+export function dropTinyExtremes(extremes: readonly TideExtreme[], minRange = MIN_EXTREME_RANGE_CM): TideExtreme[] {
+  const index = extremes.findIndex(
+    (e, i) => i < extremes.length - 1 && Math.abs(e.level - extremes[i + 1].level) < minRange,
+  );
+  if (index === -1) return [...extremes];
+  return dropTinyExtremes([...extremes.slice(0, index), ...extremes.slice(index + 2)], minRange);
+}
+
 /** [startMs, endMs) の満潮・干潮を時刻順に返す */
 export function findExtremes(
   startMs: number,
@@ -98,7 +109,7 @@ export function findExtremes(
     prevTime = t;
     prevRate = rate;
   }
-  return extremes;
+  return dropTinyExtremes(extremes);
 }
 
 export function sampleTide(

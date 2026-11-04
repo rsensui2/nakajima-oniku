@@ -76,7 +76,6 @@ export function Phases() {
             return (
               <article
                 key={phase}
-                aria-hidden={!active}
                 className="absolute inset-0 transition-[opacity,transform,filter] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
                 style={{
                   opacity: active ? 1 : 0,
@@ -99,15 +98,15 @@ export function Phases() {
                 <h3 className="mt-4 font-mincho text-[clamp(2.8rem,6vw,5rem)] font-medium leading-none tracking-[0.12em] text-moon">
                   {cut.name}
                 </h3>
-                <p className="mt-2 font-mono text-xs tracking-[0.2em] text-moon/45">{cut.reading}</p>
+                <p className="mt-2 font-mono text-xs tracking-[0.2em] text-moon/60">{cut.reading}</p>
                 <p className="mt-5 max-w-md text-[0.92rem] leading-[2] text-moon/80">{cut.description}</p>
                 <dl className="mt-5 grid max-w-md gap-2 border-t border-moon/10 pt-4 text-[0.82rem]">
                   <div className="grid grid-cols-[4.5rem_1fr] gap-3">
-                    <dt className="font-mono text-[0.64rem] tracking-[0.2em] text-moon/45">火入れ</dt>
+                    <dt className="font-mono text-[0.64rem] tracking-[0.2em] text-moon/60">火入れ</dt>
                     <dd className="text-moon/85">{cut.cooking}</dd>
                   </div>
                   <div className="grid grid-cols-[4.5rem_1fr] gap-3">
-                    <dt className="font-mono text-[0.64rem] tracking-[0.2em] text-moon/45">脂</dt>
+                    <dt className="font-mono text-[0.64rem] tracking-[0.2em] text-moon/60">脂</dt>
                     <dd className="text-moon/85">{cut.fatNote}</dd>
                   </div>
                 </dl>

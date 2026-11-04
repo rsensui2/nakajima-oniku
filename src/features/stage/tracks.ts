@@ -14,18 +14,34 @@ const EASES: Readonly<Record<Ease, (t: number) => number>> = {
 };
 
 /** s を挟むキーの組（a, b）とイージング後の補間率。範囲外なら端のキーを a=b で返す。 */
-type Span = Readonly<{ a: number; b: number; t: number }>;
+type Span = { a: number; b: number; t: number };
 
-function span<T extends readonly [number, unknown, Ease?]>(keys: readonly T[], s: number): Span {
+/** 毎フレーム数十回呼ばれるので、結果は使い回しの入れ物に書く（呼び出し側はすぐ読み捨てる） */
+const scratch: Span = { a: 0, b: 0, t: 0 };
+
+export function span<T extends readonly [number, unknown, Ease?]>(keys: readonly T[], s: number, out: Span = scratch): Span {
   const last = keys.length - 1;
-  if (s <= keys[0][0]) return { a: 0, b: 0, t: 0 };
-  if (s >= keys[last][0]) return { a: last, b: last, t: 0 };
+  if (s <= keys[0][0]) {
+    out.a = 0;
+    out.b = 0;
+    out.t = 0;
+    return out;
+  }
+  if (s >= keys[last][0]) {
+    out.a = last;
+    out.b = last;
+    out.t = 0;
+    return out;
+  }
   let i = 1;
   while (keys[i][0] < s) i += 1;
   const start = keys[i - 1][0];
   const end = keys[i][0];
   const ease = keys[i][2] ?? "inOut";
-  return { a: i - 1, b: i, t: EASES[ease]((s - start) / Math.max(end - start, 1e-6)) };
+  out.a = i - 1;
+  out.b = i;
+  out.t = EASES[ease]((s - start) / Math.max(end - start, 1e-6));
+  return out;
 }
 
 export function evalNum(keys: readonly NumKey[], s: number): number {

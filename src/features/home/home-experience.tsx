@@ -19,7 +19,7 @@ function ScrollDriver({ bus }: { bus: ReturnType<typeof createStoryBus> }) {
 }
 
 export function HomeExperience({ children }: { children: React.ReactNode }) {
-  const bus = useMemo(() => createStoryBus(), []);
+  const [bus] = useState(createStoryBus);
   const [stageStatus, setStageStatus] = useState<StageStatus>("loading");
   const [introDone, setIntroDone] = useState(false);
 

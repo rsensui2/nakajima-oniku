@@ -17,7 +17,7 @@ export function Marquee({ items, duration = 48, className }: Props) {
     </div>
   );
   return (
-    <div className={`relative overflow-hidden border-y border-moon/10 bg-abyss/40 py-3 backdrop-blur-[2px] ${className ?? ""}`}>
+    <div aria-hidden className={`marquee relative overflow-hidden border-y border-moon/10 bg-abyss/55 py-3 ${className ?? ""}`}>
       <div className="marquee-track flex w-max" style={{ "--marquee-duration": `${duration}s` } as React.CSSProperties}>
         {row(false)}
         {row(true)}

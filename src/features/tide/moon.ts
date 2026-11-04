@@ -81,7 +81,21 @@ const MOON_NAMES: ReadonlyArray<readonly [number, string]> = [
   [Number.POSITIVE_INFINITY, "新月"],
 ];
 
-export function moonName(age: number): string {
+/** 朔・上弦・望・下弦の瞬間の前後（離角 ±6° ≒ ±12時間）は、月齢ではなく離角で名前を決める */
+const PRINCIPAL_PHASES: ReadonlyArray<readonly [number, string]> = [
+  [0, "新月"],
+  [90, "上弦"],
+  [180, "満月"],
+  [270, "下弦"],
+  [360, "新月"],
+];
+const PRINCIPAL_WINDOW_DEG = 6;
+
+export function moonName(age: number, elongation?: number): string {
+  if (elongation !== undefined) {
+    const principal = PRINCIPAL_PHASES.find(([deg]) => Math.abs(elongation - deg) <= PRINCIPAL_WINDOW_DEG);
+    if (principal) return principal[1];
+  }
   const entry = MOON_NAMES.find(([limit]) => age < limit);
   return entry ? entry[1] : "新月";
 }
@@ -102,6 +116,6 @@ export function moonState(ms: number): MoonState {
     elongation,
     illumination: (1 - Math.cos(elongation * DEG)) / 2,
     waxing: elongation < 180,
-    name: moonName(age),
+    name: moonName(age, elongation),
   };
 }

@@ -14,7 +14,8 @@ import { nextSpringTideStart, tideNameForDay, type TideName } from "./tide-name"
 
 /** 満潮・干潮の前後で「満潮」「干潮」とみなす割合（半周期に対して） */
 const SLACK_FRACTION = 0.2;
-const SEARCH_MARGIN_MS = 14 * HOUR_MS;
+/** 満潮・干潮の間隔は最大で約17時間あくので、前後にそれ以上の余裕を取る */
+const SEARCH_MARGIN_MS = 20 * HOUR_MS;
 const CURVE_STEP_MS = 10 * MINUTE_MS;
 
 export type PhaseWindow = Readonly<{

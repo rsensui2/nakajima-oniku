@@ -28,7 +28,7 @@ export function Craftsman() {
         <Reveal className="mt-16 grid gap-8 border-t border-moon/10 pt-10 sm:grid-cols-3" delay={200}>
           {FACTS.map((f, i) => (
             <div key={f.k} className="rise" style={{ "--d": `${300 + i * 120}ms` } as React.CSSProperties}>
-              <p className="font-mono text-[0.64rem] tracking-[0.26em] text-moon/45">{f.k}</p>
+              <p className="font-mono text-[0.64rem] tracking-[0.26em] text-moon/60">{f.k}</p>
               <p className="mt-2 font-mincho text-xl tracking-[0.12em] text-moon">{f.v}</p>
               <p className="mt-1 text-[0.82rem] text-moon/55">{f.note}</p>
             </div>

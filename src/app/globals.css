@@ -157,6 +157,10 @@ html:has(.home-root) body {
   animation: marquee var(--marquee-duration, 48s) linear infinite;
 }
 
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
 /* スクロールの合図 */
 @keyframes scroll-cue {
   0% {
@@ -191,6 +195,24 @@ html:has(.home-root) body {
 
 .loader-failsafe {
   animation: loader-failsafe 0.6s ease 5s forwards;
+}
+
+@keyframes loader-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes sound-bar {
+  from {
+    height: 3px;
+  }
+  to {
+    height: 12px;
+  }
 }
 
 @keyframes pulse-dot {

@@ -104,6 +104,7 @@ export class MeatRig {
   private readonly slicePivot = new Group();
   private readonly blockMaterial: ShaderMaterial;
   private readonly sliceMaterial: ShaderMaterial;
+  private readonly materials: readonly ShaderMaterial[];
   private readonly attachedPos = new Vector3();
   private readonly attachedQuat = new Quaternion();
   private readonly presentQuat = new Quaternion();
@@ -130,6 +131,7 @@ export class MeatRig {
     this.blockMaterial = createMaterial(lights, quality);
     this.sliceMaterial = createMaterial(lights, quality);
     this.sliceMaterial.uniforms.uThin.value = 1;
+    this.materials = [this.blockMaterial, this.sliceMaterial];
 
     const block = new Mesh(blockGeometry, this.blockMaterial);
     const slice = new Mesh(sliceGeometry, this.sliceMaterial);
@@ -171,7 +173,7 @@ export class MeatRig {
     applyVisual(this.blockMaterial, frame.blockVisual);
     applyVisual(this.sliceMaterial, frame.sliceVisual);
     const shrink = frame.age * 0.045;
-    for (const material of [this.blockMaterial, this.sliceMaterial]) {
+    for (const material of this.materials) {
       material.uniforms.uAge.value = frame.age;
       material.uniforms.uShrink.value = shrink;
       material.uniforms.uFlash.value = frame.flash;

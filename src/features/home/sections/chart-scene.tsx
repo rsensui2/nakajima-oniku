@@ -76,7 +76,7 @@ export function ChartScene() {
         <p className="rise mt-8 text-[0.92rem] leading-[2.1] text-moon/80" style={{ "--d": "500ms" } as React.CSSProperties}>
           脂の流れは等深線に、筋は水路に似ている。中島は断面を海図のように読み、どこから刃を入れれば、いちばん旨い一枚になるかを決める。
         </p>
-        <p className="rise mt-6 font-mono text-[0.64rem] leading-[1.9] tracking-[0.08em] text-moon/45" style={{ "--d": "700ms" } as React.CSSProperties}>
+        <p className="rise mt-6 font-mono text-[0.64rem] leading-[1.9] tracking-[0.08em] text-moon/60" style={{ "--d": "700ms" } as React.CSSProperties}>
           ※ 断面の模様も等深線も、同じ一つの数式（筋束の境界までの距離）から描いています。
         </p>
       </Reveal>
@@ -115,7 +115,7 @@ export function ChartScene() {
             <span>0</span>
             <span>2 cm</span>
           </p>
-          <p className="mt-1 text-moon/45">縮尺 1 : 1 — {snapshot?.cut.name ?? "今日の部位"}の断面</p>
+          <p className="mt-1 text-moon/60">縮尺 1 : 1 — {snapshot?.cut.name ?? "今日の部位"}の断面</p>
         </div>
       </div>
     </StorySection>

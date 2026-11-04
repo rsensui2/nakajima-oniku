@@ -59,7 +59,7 @@ function DateScrubber() {
 function CutCard({ snapshot }: { snapshot: TideSnapshot }) {
   const { cut } = snapshot;
   return (
-    <div className="relative overflow-hidden rounded-[2px] border border-moon/15 bg-abyss/55 p-6 backdrop-blur-md sm:p-8">
+    <div className="relative overflow-hidden rounded-[2px] border border-moon/15 bg-abyss/80 p-6 sm:p-8 lg:bg-abyss/55 lg:backdrop-blur-md">
       <p className="flex items-center gap-2 font-mono text-[0.64rem] tracking-[0.26em] text-moon/55">
         <span className="h-2 w-2 rounded-full" style={{ background: PHASE_COLOR[cut.phase] }} />
         いま切るなら — {cut.phaseLabel} {cut.phaseEnglish}
@@ -67,15 +67,15 @@ function CutCard({ snapshot }: { snapshot: TideSnapshot }) {
       <p key={cut.id} className="mt-5 font-mincho text-[clamp(2.6rem,5vw,3.8rem)] leading-none tracking-[0.12em] text-moon">
         <SplitText text={cut.name} className="is-in" />
       </p>
-      <p className="mt-2 font-mono text-xs tracking-[0.2em] text-moon/45">{cut.reading}</p>
+      <p className="mt-2 font-mono text-xs tracking-[0.2em] text-moon/60">{cut.reading}</p>
       <p className="mt-6 text-[0.92rem] leading-[2] text-moon/80">{cut.description}</p>
       <dl className="mt-6 grid gap-3 border-t border-moon/10 pt-5 text-[0.84rem]">
         <div className="grid grid-cols-[4.5rem_1fr] gap-3">
-          <dt className="font-mono text-[0.66rem] tracking-[0.2em] text-moon/45">火入れ</dt>
+          <dt className="font-mono text-[0.66rem] tracking-[0.2em] text-moon/60">火入れ</dt>
           <dd className="text-moon/85">{cut.cooking}</dd>
         </div>
         <div className="grid grid-cols-[4.5rem_1fr] gap-3">
-          <dt className="font-mono text-[0.66rem] tracking-[0.2em] text-moon/45">脂・旨味</dt>
+          <dt className="font-mono text-[0.66rem] tracking-[0.2em] text-moon/60">脂・旨味</dt>
           <dd className="text-moon/85">{cut.fatNote}</dd>
         </div>
       </dl>
@@ -86,23 +86,23 @@ function CutCard({ snapshot }: { snapshot: TideSnapshot }) {
 function MoonCard({ snapshot }: { snapshot: TideSnapshot }) {
   const { moon } = snapshot;
   return (
-    <div className="flex items-center gap-6 border border-moon/10 bg-abyss/40 p-6 backdrop-blur-md">
+    <div className="flex items-center gap-6 border border-moon/10 bg-abyss/75 p-6 lg:bg-abyss/40 lg:backdrop-blur-md">
       <MoonGlyph illumination={moon.illumination} waxing={moon.waxing} size={76} />
       <dl className="grid flex-1 grid-cols-2 gap-x-4 gap-y-3 font-mono text-[0.7rem] tracking-[0.12em]">
         <div>
-          <dt className="text-moon/45">月齢</dt>
+          <dt className="text-moon/60">月齢</dt>
           <dd className="mt-1 text-xl text-moon">{moon.age.toFixed(1)}</dd>
         </div>
         <div>
-          <dt className="text-moon/45">月</dt>
+          <dt className="text-moon/60">月</dt>
           <dd className="mt-1 font-mincho text-lg tracking-[0.15em] text-moon">{moon.name}</dd>
         </div>
         <div>
-          <dt className="text-moon/45">潮名</dt>
+          <dt className="text-moon/60">潮名</dt>
           <dd className="mt-1 font-mincho text-lg tracking-[0.15em] text-moon">{snapshot.tideName}</dd>
         </div>
         <div>
-          <dt className="text-moon/45">輝面比</dt>
+          <dt className="text-moon/60">輝面比</dt>
           <dd className="mt-1 text-xl text-moon">{Math.round(moon.illumination * 100)}%</dd>
         </div>
       </dl>
@@ -152,7 +152,7 @@ export function TidePanel() {
           </Reveal>
         </div>
 
-        <Reveal className="rise mt-12 max-w-3xl font-mono text-[0.66rem] leading-[1.9] tracking-[0.06em] text-moon/45">
+        <Reveal className="rise mt-12 max-w-3xl font-mono text-[0.66rem] leading-[1.9] tracking-[0.06em] text-moon/60">
           <p>
             潮位はこのページが開かれた瞬間に、気象庁「分潮一覧表 東京」の調和定数（主要25分潮・交点補正つき）からブラウザ内で推算しています。
             2026年の気象庁の毎時潮位 8,760点との比較で、誤差は RMS 1.9cm・最大 6.4cm。

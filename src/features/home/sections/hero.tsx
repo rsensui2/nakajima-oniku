@@ -8,6 +8,7 @@ import { useExperience } from "../state/experience-context";
 import { useStoryFrame } from "../state/story-context";
 import { useTide } from "../state/tide-context";
 import { formatCoordinate, trendArrow, trendLabel } from "../ui/format";
+import { useCoarsePointer } from "../ui/use-media-query";
 import { SplitText } from "../ui/split-text";
 import { StorySection } from "../ui/story-section";
 
@@ -34,7 +35,7 @@ function LiveReadout() {
       <dl className="grid grid-cols-[4.5rem_1fr] gap-y-1.5">
         {rows.map(([k, v]) => (
           <div key={k} className="contents">
-            <dt className="text-moon/45">{k}</dt>
+            <dt className="text-moon/60">{k}</dt>
             <dd className="text-moon/90">{v}</dd>
           </div>
         ))}
@@ -47,6 +48,8 @@ export function Hero() {
   const { introDone } = useExperience();
   const contentRef = useRef<HTMLDivElement>(null);
   const cueRef = useRef<HTMLDivElement>(null);
+  // 画面全体へのぼかしはスマホでは重いので、透明度と移動だけにする
+  const coarse = useCoarsePointer();
 
   useStoryFrame((s) => {
     const t = smoothstep(0.05, 0.5, s);
@@ -54,7 +57,7 @@ export function Hero() {
     if (el) {
       el.style.opacity = String(1 - t);
       el.style.transform = `translate3d(0, ${-t * 70}px, 0)`;
-      el.style.filter = t > 0.01 ? `blur(${(t * 10).toFixed(1)}px)` : "";
+      el.style.filter = !coarse && t > 0.01 ? `blur(${(t * 10).toFixed(1)}px)` : "";
     }
     if (cueRef.current) cueRef.current.style.opacity = String(1 - smoothstep(0.01, 0.12, s));
   });

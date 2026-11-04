@@ -32,7 +32,7 @@ export function SoundToggle() {
       type="button"
       onClick={toggle}
       aria-pressed={on}
-      aria-label={on ? "潮騒を止める" : "潮騒を流す"}
+      aria-label="潮騒（波の音）"
       className="group flex items-center gap-2 rounded-full border border-moon/20 px-3 py-1.5 font-mono text-[0.62rem] tracking-[0.2em] text-moon/75 transition-colors hover:border-moon/50 hover:text-moon"
     >
       <span className="flex h-3 items-end gap-[2px]" aria-hidden>
@@ -48,7 +48,6 @@ export function SoundToggle() {
         ))}
       </span>
       <span className="font-mincho tracking-[0.3em]">潮騒</span>
-      <style>{`@keyframes sound-bar { from { height: 3px; } to { height: 12px; } }`}</style>
     </button>
   );
 }

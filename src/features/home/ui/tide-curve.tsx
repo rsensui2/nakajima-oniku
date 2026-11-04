@@ -14,7 +14,7 @@ const TOP = 34;
 const CURVE_BOTTOM = 232;
 const BAND_Y = 252;
 const BAND_H = 20;
-const LEVEL_MIN = -10;
+const LEVEL_MIN = -30;
 const LEVEL_MAX = 220;
 const HOURS = [0, 3, 6, 9, 12, 15, 18, 21, 24];
 
@@ -57,7 +57,7 @@ export function TideCurve({ snapshot }: { snapshot: TideSnapshot }) {
       <svg
         ref={svgRef}
         viewBox={`0 0 ${W} ${H}`}
-        className={`h-auto w-full touch-none select-none ${inView ? "is-in" : ""}`}
+        className={`h-auto w-full touch-pan-y select-none ${inView ? "is-in" : ""}`}
         onPointerMove={handleMove}
         onPointerDown={handleMove}
         onPointerLeave={() => setHover(null)}
@@ -167,7 +167,7 @@ export function TideCurve({ snapshot }: { snapshot: TideSnapshot }) {
             </span>
           </>
         ) : (
-          <span className="text-moon/45">曲線をなぞると、その時刻の潮位と「切るならこの部位」が出ます</span>
+          <span className="text-moon/60">曲線をなぞると、その時刻の潮位と「切るならこの部位」が出ます</span>
         )}
       </div>
     </div>

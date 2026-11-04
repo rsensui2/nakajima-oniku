@@ -30,6 +30,7 @@ export function HomeHeader() {
 
   return (
     <header
+      onFocusCapture={() => setHidden(false)}
       className="fixed inset-x-0 top-0 z-50 transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
       style={{
         transform: hidden ? "translateY(-110%)" : "none",

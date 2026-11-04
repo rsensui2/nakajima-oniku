@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { smoothstep } from "@/features/stage/tracks";
 import { useStoryFrame } from "../state/story-context";
+import { useCoarsePointer } from "./use-media-query";
 
 export type StoryLine = Readonly<{ text: string; from: number; to: number }>;
 
@@ -11,6 +12,7 @@ const FADE = 0.05;
 /** ストーリー位置 S の区間ごとに入れ替わる大きな文。文字ごとに少しずつずれて現れる。 */
 export function StoryLines({ lines, className }: { lines: readonly StoryLine[]; className?: string }) {
   const refs = useRef<Array<HTMLParagraphElement | null>>([]);
+  const coarse = useCoarsePointer();
 
   useStoryFrame((s) => {
     lines.forEach((line, i) => {
@@ -22,8 +24,7 @@ export function StoryLines({ lines, className }: { lines: readonly StoryLine[]; 
       const v = enter * (1 - exit);
       el.style.opacity = v.toFixed(3);
       el.style.transform = `translate3d(0, ${((1 - enter) * 28 - exit * 28).toFixed(1)}px, 0)`;
-      el.style.filter = v < 0.99 ? `blur(${((1 - v) * 8).toFixed(1)}px)` : "";
-      el.style.visibility = v < 0.002 ? "hidden" : "visible";
+      el.style.filter = !coarse && v < 0.99 ? `blur(${((1 - v) * 8).toFixed(1)}px)` : "";
     });
   });
 

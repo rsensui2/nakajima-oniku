@@ -42,3 +42,24 @@ describe("findExtremes", () => {
     });
   });
 });
+
+describe("dropTinyExtremes", () => {
+  it("差が 3cm 未満の満干の組を取り除き、満干は交互のまま残る", async () => {
+    const { dropTinyExtremes } = await import("../predict");
+    const e = (type: "high" | "low", time: number, level: number) => ({ type, time, level });
+    const cleaned = dropTinyExtremes([
+      e("high", 0, 150),
+      e("low", 1, 136),
+      e("high", 2, 137.5),
+      e("low", 3, 60),
+    ]);
+    expect(cleaned.map((x) => `${x.type}:${x.level}`)).toEqual(["high:150", "low:60"]);
+  });
+
+  it("2026年の毎日の満干は、満潮と干潮が必ず交互に並ぶ", () => {
+    const start = jst("2026-01-01");
+    const extremes = findExtremes(start, start + 365 * 86_400_000);
+    extremes.slice(1).forEach((x, i) => expect(x.type).not.toBe(extremes[i].type));
+    extremes.slice(1).forEach((x, i) => expect(Math.abs(x.level - extremes[i].level)).toBeGreaterThanOrEqual(3));
+  });
+});

@@ -92,11 +92,12 @@ const PRESENT_POS_WIDE: readonly VecKey[] = [
 ];
 const PRESENT_POS_TALL: readonly VecKey[] = [
   [2.9, [0, 1.2, 0.9]],
-  [3.05, [0.1, 0.78, 0.9]],
-  [3.9, [0.1, 0.78, 0.9]],
+  [3.9, [0, 1.2, 0.9]],
   [4.1, [0, 1.78, 0.9]],
   [4.75, [0, 1.78, 0.9]],
 ];
+/** 縦長の画面で海図を見せる間は、一枚を沈めずにカメラ側を持ち上げて文字の下に置く */
+const TALL_CHART_LIFT: readonly NumKey[] = [[2.95, 0], [3.1, 0.42], [3.9, 0.42], [4.05, 0]];
 const PRESENT_ROT: readonly VecKey[] = [
   [3.0, [0, 0, 0]],
   [3.9, [0, 0, 0]],
@@ -207,6 +208,11 @@ export class Director {
     evalVec(CAM_POS, s, st.cameraPosition);
     evalVec(CAM_TARGET, s, st.cameraTarget);
     this.fitToAspect(input.aspect);
+    if (tall) {
+      const lift = evalNum(TALL_CHART_LIFT, s);
+      st.cameraPosition.y += lift;
+      st.cameraTarget.y += lift;
+    }
 
     const near = 1 - smoothstep(6, 12, st.cameraPosition.distanceTo(st.cameraTarget));
     const parallax = 0.16 * (1 - near * 0.6);

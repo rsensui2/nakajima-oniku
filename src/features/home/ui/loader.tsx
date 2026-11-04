@@ -49,8 +49,9 @@ export function Loader({ onDone }: { onDone: () => void }) {
     };
   }, [phase, onDone]);
 
-  const age = useCountUp(snapshot?.moon.age ?? 0, 1300, snapshot !== null);
-  const level = useCountUp(snapshot?.level ?? 0, 1300, snapshot !== null);
+  const counting = snapshot !== null && phase !== "done";
+  const age = useCountUp(snapshot?.moon.age ?? 0, 1300, counting);
+  const level = useCountUp(snapshot?.level ?? 0, 1300, counting);
 
   if (phase === "done" || reduced) return null;
   const exiting = phase === "exit";
@@ -90,7 +91,6 @@ export function Loader({ onDone }: { onDone: () => void }) {
         <span className="font-mincho tracking-[0.4em] text-moon/80">潮を読んでいます</span>
       </div>
 
-      <style>{`@keyframes loader-line { from { transform: scaleX(0); } to { transform: scaleX(1); } }`}</style>
     </div>
   );
 }

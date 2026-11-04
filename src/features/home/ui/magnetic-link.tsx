@@ -15,16 +15,24 @@ type Props = Readonly<{
 /** カーソルに少し吸い寄せられ、内側が潮のように満ちるボタン */
 export function MagneticLink({ href, children, variant = "solid", className }: Props) {
   const ref = useRef<HTMLAnchorElement>(null);
+  const restRect = useRef<DOMRect | null>(null);
 
+  const onEnter = () => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.transform = "";
+    restRect.current = el.getBoundingClientRect();
+  };
   const onMove = (e: React.PointerEvent<HTMLAnchorElement>) => {
     const el = ref.current;
-    if (!el || e.pointerType !== "mouse") return;
-    const rect = el.getBoundingClientRect();
+    const rect = restRect.current;
+    if (!el || !rect || e.pointerType !== "mouse") return;
     const x = (e.clientX - rect.left - rect.width / 2) * PULL;
     const y = (e.clientY - rect.top - rect.height / 2) * PULL;
     el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
   };
   const onLeave = () => {
+    restRect.current = null;
     if (ref.current) ref.current.style.transform = "";
   };
 
@@ -36,7 +44,7 @@ export function MagneticLink({ href, children, variant = "solid", className }: P
       : "border border-moon/30 text-moon hover:border-moon/70";
 
   return (
-    <Link ref={ref} href={href} onPointerMove={onMove} onPointerLeave={onLeave} className={`${base} ${look} ${className ?? ""}`}>
+    <Link ref={ref} href={href} onPointerEnter={onEnter} onPointerMove={onMove} onPointerLeave={onLeave} className={`${base} ${look} ${className ?? ""}`}>
       {variant === "solid" && (
         <span
           aria-hidden

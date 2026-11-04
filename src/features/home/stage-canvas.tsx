@@ -6,10 +6,13 @@ import { useExperience, type StageStatus } from "./state/experience-context";
 import { useStoryBus } from "./state/story-context";
 import { useTide } from "./state/tide-context";
 
+/** WebGL2 が使えるかを調べ、調べるために作ったコンテキストはすぐ手放す */
 function supportsWebGL2(): boolean {
   try {
-    const canvas = document.createElement("canvas");
-    return Boolean(canvas.getContext("webgl2"));
+    const gl = document.createElement("canvas").getContext("webgl2");
+    if (!gl) return false;
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    return true;
   } catch {
     return false;
   }
@@ -73,13 +76,15 @@ export function StageCanvas({ onStatus }: { onStatus: (status: StageStatus) => v
     inputRef.current.reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     import("@/features/stage/stage")
-      .then(({ Stage: StageClass }) => {
+      .then(async ({ Stage: StageClass }) => {
         if (cancelled) return;
-        stage = new StageClass(canvas, inputRef.current, {
+        const created = new StageClass(canvas, inputRef.current, {
           onFirstFrame: () => onStatus("ready"),
-          onContextLost: () => onStatus("fallback"),
+          onFailure: () => onStatus("fallback"),
         });
-        stage.start();
+        stage = created;
+        await created.prepare();
+        if (!cancelled) created.start();
       })
       .catch((error: unknown) => {
         console.error("3D stage failed to start:", error);
@@ -100,7 +105,7 @@ export function StageCanvas({ onStatus }: { onStatus: (status: StageStatus) => v
   }, [onStatus]);
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 bg-abyss">
+    <div aria-hidden className="pointer-events-none fixed left-0 top-0 z-0 h-lvh w-full bg-abyss">
       <canvas
         ref={canvasRef}
         className="block h-full w-full transition-opacity duration-[1600ms]"

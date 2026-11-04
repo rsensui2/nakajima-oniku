@@ -1,17 +1,21 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { Cormorant_Garamond, JetBrains_Mono, Noto_Sans_JP, Shippori_Mincho } from "next/font/google";
 import "./globals.css";
 
+// 日本語フォントは文字範囲ごとに百以上のファイルに分かれる。preload すると全ファイルを
+// 先読みしてしまう（約 5.8MB）ので、必要な範囲だけをブラウザに取らせる。
 const sans = Noto_Sans_JP({
   variable: "--nf-sans",
   subsets: ["latin"],
   weight: ["400", "500", "700"],
+  preload: false,
 });
 
 const mincho = Shippori_Mincho({
   variable: "--nf-mincho",
   subsets: ["latin"],
-  weight: ["500", "700", "800"],
+  weight: ["500", "700"],
+  preload: false,
 });
 
 const mono = JetBrains_Mono({
@@ -50,10 +54,6 @@ export const metadata: Metadata = {
     title: "潮待熟成 中島 | NAKAJIMA TIDE CUT",
     description: "潮が満ちる日に、切り口は一枚だけ。東京湾の潮を読む、千葉の熟成肉店。",
   },
-};
-
-export const viewport: Viewport = {
-  themeColor: "#04070a",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
